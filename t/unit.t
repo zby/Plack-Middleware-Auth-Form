@@ -33,6 +33,7 @@ $res = $middleware->call( $post_req );
 is( $res->[1]{Location}, '/landing_page', 'Redirection after login' ) or warn Dumper($res);
 is( $post_req->{'psgix.session'}{user_id}, 'joe', 'Username saved in the session' );
 is( $post_req->{'psgix.session'}{redir_to}, undef, 'redir_to removed after usage' );
+ok( !exists $post_req->{'psgix.session'}{remember} );
 
 $post_req->{'psgix.session'}{redir_to} = '/new_landing_page';
 $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { { user_id => 1 } } );
@@ -58,6 +59,25 @@ $middleware = Plack::Middleware::Auth::Form->new(
 $res = $middleware->call( $get_req );
 like( join( '', @{ $res->[2] } ), qr/form id="login_form"/, 'login form passed' );
 like( join( '', @{ $res->[2] } ), qr/^aaa/, 'app login page used' );
+
+$input = 'username=joe&password=pass1&remember=1';
+open( $input_fh, '<', \$input ) or die $!; 
+$post_req = { 
+    PATH_INFO => '/login', 
+    REQUEST_METHOD => 'POST', 
+    CONTENT_TYPE => 'application/x-www-form-urlencoded',
+    CONTENT_LENGTH => length( $input ),
+    'psgi.input' => $input_fh,
+    'psgix.session' => { redir_to => '/landing_page' },
+};
+$middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { 1 }, app => sub {} );
+$res = $middleware->call( $post_req );
+ok( $post_req->{'psgix.session'}{remember}, 'Remeber saved on session' );
+is( $post_req->{'psgix.session'}{user_id}, 'joe', 'Username saved in the session' );
+$get_req->{PATH_INFO} = '/some_page';
+$get_req->{'psgix.session'}{remember} = 1;
+$res = $middleware->call( $get_req );
+ok( $get_req->{'psgix.session.options'}{expires} > 10000, 'Long session' );
 
 
 done_testing;

@@ -23,6 +23,14 @@ sub prepare_app {
 sub call {
     my($self, $env) = @_;
     my $path = $env->{PATH_INFO};
+
+    if( $env->{'psgix.session'}{remember} ){
+        if( $path ne '/logout' ){
+            $env->{'psgix.session.options'}{expires} = time + 60 * 60 * 24 * 30;
+        }
+        delete $env->{'psgix.session'}{remember};
+    }
+
     if( $path eq '/login' ){
         return $self->_login( $env );
     }
