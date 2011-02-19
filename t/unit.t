@@ -43,6 +43,14 @@ $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { 0 } );
 $res = $middleware->call( $post_req );
 like( join( '', @{ $res->[2] } ), qr/error.*form id="login_form"/, 'login form for login error' );
 
+
+$post_req->{'psgix.session'}{user_id} = '1';
+$post_req->{PATH_INFO} = '/logout';
+$middleware = Plack::Middleware::Auth::Form->new( after_logout => '/after_logout' );
+$res = $middleware->call( $post_req );
+ok( !exists( $post_req->{'psgix.session'}{user_id} ), 'User logged out' );
+is( $res->[1]{Location}, '/after_logout', 'Redirection after logout' );
+
 $middleware = Plack::Middleware::Auth::Form->new( 
     app => sub { [ 200, {}, [ 'aaa' . $_[0]->{SimpleLoginForm} ] ] },
     no_login_page => 1,

@@ -178,6 +178,10 @@ to be saved in the session instead of the username.
 Save the login form on C<<$env->{SimpleLoginForm}>> and let the 
 application display the login page (for a GET request).
 
+=item after_logout
+
+Where to go after logout, by default '/'.
+
 =back
 
 =head1 SEE ALSO
