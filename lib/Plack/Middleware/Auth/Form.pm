@@ -44,7 +44,8 @@ sub _login {
     my($self, $env) = @_;
     my $login_error;
     if( $self->secure && $env->{'psgi.url_scheme'} ne 'https' ){
-        my $secure_url = 'https://' . $env->{SERVER_NAME} . $env->{PATH_INFO};
+        my $server = $env->{X_FORWARDED_FOR} // $env->{X_HTTP_HOST} // $env->{SERVER_NAME};
+        my $secure_url = "https://$server" . $env->{PATH_INFO};
         return [ 
             301, 
             { Location => $secure_url }, 
