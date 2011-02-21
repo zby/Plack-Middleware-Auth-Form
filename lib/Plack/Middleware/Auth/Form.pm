@@ -104,7 +104,7 @@ sub _render_form {
     my ( %params ) = @_;
     my $out = '';
     if( $params{login_error} ){
-        $out .= "<div class='error'>$params{login_error}</div>";
+        $out .= qq{<div class="error">$params{login_error}</div>};
     }
     my $username = $params{username} // '';
     $out .= <<END;

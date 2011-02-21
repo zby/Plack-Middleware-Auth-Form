@@ -27,6 +27,5 @@ $mech->content_contains( 'Hi aaa', 'login passed, user_id filled in' );
 is( $mech->uri->path, '/some_page', 'Redirect after login' );
 $mech->submit_form_ok( { form_name => 'logout_form' } );
 $mech->content_contains( '<a href="/login">login</a>', 'user logged out' );
-is( $mech->uri->path, '/after_logout', 'after_logout' );
 
 done_testing;

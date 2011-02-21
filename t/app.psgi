@@ -27,7 +27,7 @@ END
 
 builder {
     enable 'Session';
-    enable 'Auth::Form', authenticator => \&check_pass, after_logout => '/after_logout';
+    enable 'Auth::Form', authenticator => \&check_pass;
     \&my_app
 }
 
