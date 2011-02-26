@@ -197,8 +197,9 @@ Where to go after logout, by default '/'.
 
 L<Plack>
 
-=head1 BASED ON 
+=head1 ACKNOWLEDGEMENTS
 
-L<Plack::Middleware::Auth::Basic>
+The C<authenticator> code and documentation copied from 
+L<Plack::Middleware::Auth::Basic>.
 
 =cut
