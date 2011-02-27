@@ -134,7 +134,7 @@ sub _logout {
 
 __END__
 
-# ABSTRACT: Form Based Authentication for Plack (think CatalystX::LoginSimple)
+# ABSTRACT: Form Based Authentication for Plack (think CatalystX::SimpleLogin)
 
 =head1 SYNOPSIS
 
