@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 use Test::WWW::Mechanize::PSGI;
-my $app = do 't/app.psgi';
+my $app = do 't/app.psgi' || warn $! ? "Cannot find 't/app.psgi: $!" : "Cannot compile 't/app.psgi': $@";
 
 my $mech = Test::WWW::Mechanize::PSGI->new( app => $app );
 $mech->get( '/some_page' );

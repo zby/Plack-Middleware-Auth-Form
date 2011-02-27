@@ -1,4 +1,6 @@
 Revision history for Plack::Middleware::Auth::Form.
 
-{{$NEXT}}
+0.001     2011-02-26
 
+{{$NEXT}}
+    No "use feature ':5.10'".
