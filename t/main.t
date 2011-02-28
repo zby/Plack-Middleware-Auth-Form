@@ -3,7 +3,10 @@ use warnings;
 
 use Test::More;
 use Test::WWW::Mechanize::PSGI;
-my $app = do 't/app.psgi' || warn $! ? "Cannot find 't/app.psgi: $!" : "Cannot compile 't/app.psgi': $@";
+use File::Spec;
+
+my $psgi_file = File::Spec->catfile( 't', 'app.psgi' );
+my $app = do $psgi_file || die $! ? "Cannot find '$psgi_file': $!" : "Cannot compile '$psgi_file': $@";
 
 my $mech = Test::WWW::Mechanize::PSGI->new( app => $app );
 $mech->get( '/some_page' );

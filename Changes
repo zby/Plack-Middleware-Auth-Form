@@ -6,5 +6,9 @@ Revision history for Plack::Middleware::Auth::Form.
 0.002     2011-02-27
     No "use feature ':5.10'".
 
-{{$NEXT}}
+0.004     2011-02-27
     Minor doc fix.
+    
+{{$NEXT}}
+    File::Spec to get the app.psgi file in tests.
+
