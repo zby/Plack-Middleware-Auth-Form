@@ -151,14 +151,14 @@ __END__
 
 After a succesful login the user is redirected back to url identified by 
 the C<redir_to> session parameter.  It also sets that session parameter from
-$env->{HTTP_REFERER} if it is not set or to C</> if even that is not available.
+C<< $env->{HTTP_REFERER} >> if it is not set or to C</> if even that is not available.
 The username (or id) is saved to C<user_id> session parameter, if you want
 to save an id different from the username - then you need to return
 a hashref from the C<authenticator> callback described below.
 
 If the login page looks too simplistic - the application can take over
 displaying it by setting the C<no_login_page> attribute.  Then 
-the the login form will be saved to C<<$env->{SimpleLoginForm}>>.
+the the login form will be saved to C<< $env->{SimpleLoginForm} >>.
 
 =head1 CONFIGURATION
 
@@ -182,7 +182,7 @@ to be saved in the session instead of the username.
 
 =item no_login_page
 
-Save the login form on C<<$env->{SimpleLoginForm}>> and let the 
+Save the login form on C<< $env->{SimpleLoginForm} >> and let the 
 application display the login page (for a GET request).
 
 =item after_logout
