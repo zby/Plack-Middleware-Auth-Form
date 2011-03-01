@@ -134,7 +134,7 @@ sub _logout {
 
 __END__
 
-# ABSTRACT: Form Based Authentication for Plack (think CatalystX::SimpleLogin)
+# ABSTRACT: Form Based Authentication for Plack (think L<CatalystX::SimpleLogin> but on Plack level)
 
 =head1 SYNOPSIS
 
@@ -146,8 +146,17 @@ __END__
 
 =head1 DESCRIPTION
 
-/login - a page with a login form
-/logout - logouts the user (only on a POST) and redirects him to C<after_logout> or C</>.
+=over 4
+
+=item /login 
+
+a page with a login form
+
+=item /logout
+
+logouts the user (only on a POST) and redirects him to C<after_logout> or C</>.
+
+=back
 
 After a succesful login the user is redirected back to url identified by 
 the C<redir_to> session parameter.  It also sets that session parameter from
@@ -194,6 +203,7 @@ Where to go after logout, by default '/'.
 =head1 SEE ALSO
 
 L<Plack>
+L<CatalystX::SimpleLogin> 
 
 =head1 ACKNOWLEDGEMENTS
 
