@@ -200,4 +200,8 @@ L<Plack>
 The C<authenticator> code and documentation copied from 
 L<Plack::Middleware::Auth::Basic>.
 
+=head1 CONTRIBUTORS
+
+Tokuhiro Matsuno
+
 =cut
