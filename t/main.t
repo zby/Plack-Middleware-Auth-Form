@@ -3,9 +3,16 @@ use warnings;
 
 use Test::More;
 use Test::WWW::Mechanize::PSGI;
-use File::Spec;
+use Cwd 'getcwd';
 
-my $psgi_file = File::Spec->catfile( 't', 'app.psgi' );
+if( -d 't' ){
+    chdir 't';
+}
+else{
+    warn 'I am in: ' . getcwd();
+}
+
+my $psgi_file = 'app.psgi';
 my $app = do $psgi_file || die $! ? "Cannot find '$psgi_file': $!" : "Cannot compile '$psgi_file': $@";
 
 my $mech = Test::WWW::Mechanize::PSGI->new( app => $app );
