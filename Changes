@@ -12,6 +12,10 @@ Revision history for Plack::Middleware::Auth::Form.
 0.006     2011-03-01
     Docs improvements
 
+0.008     2011-03-05
+    Some prerequisites added
+
 {{$NEXT}}
-    Checking working directory
+    Prefix for login form snippet is now 'Plack::Middleware::Auth::Form.LoginForm'
+
 

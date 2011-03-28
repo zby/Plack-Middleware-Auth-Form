@@ -85,7 +85,7 @@ sub _login {
         redir_to => $env->{'psgix.session'}{redir_to},
     );
     if( $self->no_login_page ){
-        $env->{SimpleLoginForm} = $form;
+        $env->{'Plack::Middleware::Auth::Form.LoginForm'} = $form;
         return $self->app->( $env );
     }
     else{
@@ -167,7 +167,8 @@ a hashref from the C<authenticator> callback described below.
 
 If the login page looks too simplistic - the application can take over
 displaying it by setting the C<no_login_page> attribute.  Then 
-the the login form will be saved to C<< $env->{SimpleLoginForm} >>.
+the the login form will be saved to 
+C<< $env->{'Plack::Middleware::Auth::Form.LoginForm'} >>.
 
 =head1 CONFIGURATION
 
@@ -191,7 +192,8 @@ to be saved in the session instead of the username.
 
 =item no_login_page
 
-Save the login form on C<< $env->{SimpleLoginForm} >> and let the 
+Save the login form on C<< $env->{'Plack::Middleware::Auth::Form.LoginForm'} >> 
+and let the 
 application display the login page (for a GET request).
 
 =item after_logout

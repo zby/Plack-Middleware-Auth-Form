@@ -53,7 +53,7 @@ ok( !exists( $post_req->{'psgix.session'}{user_id} ), 'User logged out' );
 is( $res->[1]{Location}, '/after_logout', 'Redirection after logout' );
 
 $middleware = Plack::Middleware::Auth::Form->new( 
-    app => sub { [ 200, {}, [ 'aaa' . $_[0]->{SimpleLoginForm} ] ] },
+    app => sub { [ 200, {}, [ 'aaa' . $_[0]->{'Plack::Middleware::Auth::Form.LoginForm'} ] ] },
     no_login_page => 1,
 );
 $res = $middleware->call( $get_req );
