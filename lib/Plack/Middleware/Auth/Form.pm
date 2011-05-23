@@ -6,11 +6,13 @@ use parent qw/Plack::Middleware/;
 use Plack::Util::Accessor qw( secure authenticator no_login_page after_logout );
 use Plack::Request;
 use Scalar::Util;
+use Carp ();
+
 
 sub prepare_app {
     my $self = shift;
 
-    my $auth = $self->authenticator or die 'authenticator is not set';
+    my $auth = $self->authenticator or Carp::croak 'authenticator is not set';
     if (Scalar::Util::blessed($auth) && $auth->can('authenticate')) {
         $self->authenticator(sub { $auth->authenticate(@_[0,1]) }); # because Authen::Simple barfs on 3 params
     } elsif (ref $auth ne 'CODE') {
@@ -46,7 +48,7 @@ sub _login {
         my $secure_url = "https://$server" . $env->{PATH_INFO};
         return [ 
             301, 
-            { Location => $secure_url }, 
+            [ Location => $secure_url ],
             [ "<html><body><a href=\"$secure_url\">Need a secure connection</a></body></html>" ]
         ];
     }
@@ -73,7 +75,7 @@ sub _login {
                 URI->new( $redir_to )->path eq $env->{PATH_INFO};
             return [ 
                 302, 
-                { Location => $redir_to }, 
+                [ Location => $redir_to ],
                 [ "<html><body><a href=\"$redir_to\">Back</a></body></html>" ]
             ];
         }
@@ -91,7 +93,7 @@ sub _login {
     else{
          return [ 
             200, 
-            { 'Content-Type' => 'text/html', },
+            [ 'Content-Type' => 'text/html', ],
             [ "<html><body>$form\nAfter login: $env->{'psgix.session'}{redir_to}</body></html>" ]
         ];
     }
@@ -125,7 +127,7 @@ sub _logout {
     }
     return [ 
         303, 
-        { Location => $self->after_logout || '/' }, 
+        [ Location => $self->after_logout || '/' ],
         [ "<html><body><a href=\"/\">Home</a></body></html>" ]
     ];
 }

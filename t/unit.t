@@ -30,7 +30,8 @@ like( join( '', @{ $res->[2] } ), qr/form id="login_form"/, '/login with login f
 is( $get_req->{'psgix.session'}{redir_to}, '/from_page' );
 
 $res = $middleware->call( $post_req );
-is( $res->[1]{Location}, '/landing_page', 'Redirection after login' ) or warn Dumper($res);
+is( $res->[1][0], 'Location', 'Redirection after login' ) or warn Dumper($res);
+is( $res->[1][1], '/landing_page', 'Redirection after login' ) or warn Dumper($res);
 is( $post_req->{'psgix.session'}{user_id}, 'joe', 'Username saved in the session' );
 is( $post_req->{'psgix.session'}{redir_to}, undef, 'redir_to removed after usage' );
 ok( !exists $post_req->{'psgix.session'}{remember} );
@@ -50,7 +51,8 @@ $post_req->{PATH_INFO} = '/logout';
 $middleware = Plack::Middleware::Auth::Form->new( after_logout => '/after_logout' );
 $res = $middleware->call( $post_req );
 ok( !exists( $post_req->{'psgix.session'}{user_id} ), 'User logged out' );
-is( $res->[1]{Location}, '/after_logout', 'Redirection after logout' );
+is( $res->[1][0], 'Location', 'Redirection after logout' );
+is( $res->[1][1], '/after_logout', 'Redirection after logout' );
 
 $middleware = Plack::Middleware::Auth::Form->new( 
     app => sub { [ 200, {}, [ 'aaa' . $_[0]->{'Plack::Middleware::Auth::Form.LoginForm'} ] ] },
