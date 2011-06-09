@@ -49,7 +49,7 @@ sub _login {
         return [ 
             301, 
             [ Location => $secure_url ],
-            [ "<html><body><a href=\"$secure_url\">Need a secure connection</a></body></html>" ]
+            [ $self->_wrap_body( "<a href=\"$secure_url\">Need a secure connection</a>" ) ]
         ];
     }
     my $params = Plack::Request->new( $env )->parameters;
@@ -76,7 +76,7 @@ sub _login {
             return [ 
                 302, 
                 [ Location => $redir_to ],
-                [ "<html><body><a href=\"$redir_to\">Back</a></body></html>" ]
+                [ $self->_wrap_body( "<a href=\"$redir_to\">Back</a>" ) ]
             ];
         }
     }
@@ -94,7 +94,7 @@ sub _login {
          return [ 
             200, 
             [ 'Content-Type' => 'text/html', ],
-            [ "<html><body>$form\nAfter login: $env->{'psgix.session'}{redir_to}</body></html>" ]
+            [ $self->_wrap_body( "$form\nAfter login: $env->{'psgix.session'}{redir_to}" ) ]
         ];
     }
 }
@@ -128,8 +128,14 @@ sub _logout {
     return [ 
         303, 
         [ Location => $self->after_logout || '/' ],
-        [ "<html><body><a href=\"/\">Home</a></body></html>" ]
+        [ $self->_wrap_body( "<a href=\"/\">Home</a>") ]
     ];
+}
+
+sub _wrap_body {
+    my($self, $content) = @_;
+
+    return "<html><body>$content</body></html>";
 }
 
 1;
@@ -171,6 +177,10 @@ If the login page looks too simplistic - the application can take over
 displaying it by setting the C<no_login_page> attribute.  Then 
 the the login form will be saved to 
 C<< $env->{'Plack::Middleware::Auth::Form.LoginForm'} >>.
+
+If the generated HTML is too simplistic, subclass this class and override the
+C<_wrap_body> method. This method takes one parameter: the HTML fragment
+inserted to insert into your template.
 
 =head1 CONFIGURATION
 
