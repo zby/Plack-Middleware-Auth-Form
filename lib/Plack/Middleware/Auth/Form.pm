@@ -132,6 +132,7 @@ sub _logout {
     ];
 }
 
+# this is experimental
 sub _wrap_body {
     my($self, $content) = @_;
 
@@ -177,10 +178,6 @@ If the login page looks too simplistic - the application can take over
 displaying it by setting the C<no_login_page> attribute.  Then 
 the the login form will be saved to 
 C<< $env->{'Plack::Middleware::Auth::Form.LoginForm'} >>.
-
-If the generated HTML is too simplistic, subclass this class and override the
-C<_wrap_body> method. This method takes one parameter: the HTML fragment
-inserted to insert into your template.
 
 =head1 CONFIGURATION
 
