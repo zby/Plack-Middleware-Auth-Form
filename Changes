@@ -22,3 +22,4 @@ Revision history for Plack::Middleware::Auth::Form.
 
 {{$NEXT}}
     Experimental _wrap_body method
+    ssl_port parameter added

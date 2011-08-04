@@ -3,7 +3,7 @@ use warnings;
 package Plack::Middleware::Auth::Form;
 
 use parent qw/Plack::Middleware/;
-use Plack::Util::Accessor qw( secure authenticator no_login_page after_logout );
+use Plack::Util::Accessor qw( secure authenticator no_login_page after_logout ssl_port );
 use Plack::Request;
 use Scalar::Util;
 use Carp ();
@@ -43,9 +43,12 @@ sub call {
 sub _login {
     my($self, $env) = @_;
     my $login_error;
-    if( $self->secure && $env->{'psgi.url_scheme'} ne 'https' ){
-        my $server = $env->{X_FORWARDED_FOR} || $env->{X_HTTP_HOST} || $env->{SERVER_NAME};
-        my $secure_url = "https://$server" . $env->{PATH_INFO};
+    if( $self->secure 
+        && ( !defined $env->{'psgi.url_scheme'} || lc $env->{'psgi.url_scheme'} ne 'https' )
+        && ( !defined $env->{HTTP_X_FORWARDED_PROTO} || lc $env->{HTTP_X_FORWARDED_PROTO} ne 'https' )
+    ){
+        my $server = $env->{HTTP_X_FORWARDED_FOR} || $env->{HTTP_X_HOST} || $env->{SERVER_NAME};
+        my $secure_url = "https://$server" . ( $self->ssl_port ? ':' . $self->ssl_port : '' ) . $env->{PATH_INFO};
         return [ 
             301, 
             [ Location => $secure_url ],
@@ -208,6 +211,14 @@ application display the login page (for a GET request).
 =item after_logout
 
 Where to go after logout, by default '/'.
+
+=item secure
+
+Make the login form redirect to https if requested with http.
+
+=item ssl_port
+
+The port for the https requests.
 
 =back
 

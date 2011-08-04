@@ -81,6 +81,21 @@ $get_req->{'psgix.session'}{remember} = 1;
 $res = $middleware->call( $get_req );
 ok( $get_req->{'psgix.session.options'}{expires} > 10000, 'Long session' );
 
+$middleware = Plack::Middleware::Auth::Form->new( 
+    secure => 1,
+    authenticator => sub { 1 },
+    ssl_port => 5555,
+);
+
+$res = $middleware->call( { 
+        PATH_INFO => '/login', 
+        'psgi.url_scheme' => 'http',
+        REQUEST_METHOD => 'GET',
+        SERVER_NAME => 'myserver',
+    }
+);
+is( $res->[1][0], 'Location', 'Redirection to secure login' ) or warn Dumper($res);
+is( $res->[1][1], 'https://myserver:5555/login', 'Redirection to secure login' ) or warn Dumper($res);
 
 done_testing;
 
