@@ -171,7 +171,14 @@ logouts the user (only on a POST) and redirects him to C<after_logout> or C</>.
 =back
 
 After a succesful login the user is redirected back to url identified by 
-the C<redir_to> session parameter.  It also sets that session parameter from
+the C<redir_to> session parameter.  You can set it using the psgix session
+hash:
+
+    $env->{'psgix.session'}{redir_to} = '/some/page';
+
+see C<Plack::Middleware::Session> for more explanations.
+
+It also sets that session parameter from
 C<< $env->{HTTP_REFERER} >> if it is not set or to C</> if even that is not available.
 The username (or id) is saved to C<user_id> session parameter, if you want
 to save an id different from the username - then you need to return
