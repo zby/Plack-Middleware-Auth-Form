@@ -176,7 +176,7 @@ hash:
 
     $env->{'psgix.session'}{redir_to} = '/some/page';
 
-see C<Plack::Middleware::Session> for more explanations.
+see L<Plack::Middleware::Session> for more explanations.
 
 It also sets that session parameter from
 C<< $env->{HTTP_REFERER} >> if it is not set or to C</> if even that is not available.
@@ -242,5 +242,6 @@ L<Plack::Middleware::Auth::Basic>.
 =head1 CONTRIBUTORS
 
 Tokuhiro Matsuno
+chromatic
 
 =cut
