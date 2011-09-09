@@ -244,5 +244,7 @@ L<Plack::Middleware::Auth::Basic>.
 
 Tokuhiro Matsuno
 chromatic
+hayajo
+
 
 =cut
