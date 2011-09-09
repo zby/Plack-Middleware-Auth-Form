@@ -71,6 +71,7 @@ sub _login {
             $user_id = $params->get( 'username' );
         }
         if( !$login_error ){
+            $env->{'psgix.session.options'}->{change_id}++;
             $env->{'psgix.session'}{user_id} = $user_id;
             $env->{'psgix.session'}{remember} = 1 if $params->get( 'remember' );
             my $redir_to = delete $env->{'psgix.session'}{redir_to};
