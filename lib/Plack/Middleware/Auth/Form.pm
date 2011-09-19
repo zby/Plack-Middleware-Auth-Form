@@ -211,9 +211,10 @@ backends for L<Authen::Simple> is perfect to use:
   use Authen::Simple::LDAP;
   enable "Auth::Form", authenticator => Authen::Simple::LDAP->new(...);
 
-The callback can also return a hashref with two optional fields
-C<error> - the reason for the failure and C<user_id> - the user id
-to be saved in the session instead of the username.
+The callback can also return a hashref with three optional fields
+C<error> - the reason for the failure, C<user_id> - the user id
+to be saved in the session instead of the username, and C<redir_to> - a user
+defined redirection page.
 
 =item no_login_page
 
@@ -250,6 +251,6 @@ L<Plack::Middleware::Auth::Basic>.
 Tokuhiro Matsuno
 chromatic
 hayajo
-
+Kaare Rasmussen
 
 =cut
