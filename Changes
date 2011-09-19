@@ -27,5 +27,5 @@ Revision history for Plack::Middleware::Auth::Form.
 {{$NEXT}}
     session fixation attack protection (by hayajo)
     session usage explanations (suggested by Kaare Rasmussen)
-    user dependent redirection paeg (suggested by Kaare Rasmussen)
+    user dependent redirection page (suggested by Kaare Rasmussen)
 
