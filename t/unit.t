@@ -36,6 +36,13 @@ is( $post_req->{'psgix.session'}{user_id}, 'joe', 'Username saved in the session
 is( $post_req->{'psgix.session'}{redir_to}, undef, 'redir_to removed after usage' );
 ok( !exists $post_req->{'psgix.session'}{remember} );
 
+{
+    my $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { { redir_to => '/user_page' } } );
+    $res = $middleware->call( $post_req );
+    is( $res->[1][0], 'Location', 'Redirection after login' ) or warn Dumper($res);
+    is( $res->[1][1], '/user_page', 'Redirection after login (user page)' ) or warn Dumper($res);
+}
+
 $post_req->{'psgix.session'}{redir_to} = '/new_landing_page';
 $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { { user_id => 1 } } );
 $res = $middleware->call( $post_req );

@@ -62,9 +62,11 @@ sub _login {
     elsif( $env->{REQUEST_METHOD} eq 'POST' ){
         my $user_id;
         my $auth_result = $self->authenticator->( $params->get( 'username' ), $params->get( 'password' ), $env );
+        my $redir_to;
         if( ref $auth_result ){
             $login_error = $auth_result->{error};
             $user_id = $auth_result->{user_id};
+            $redir_to = $auth_result->{redir_to};
         }
         else{
             $login_error = 'Wrong username or password' if !$auth_result;
@@ -74,9 +76,12 @@ sub _login {
             $env->{'psgix.session.options'}->{change_id}++;
             $env->{'psgix.session'}{user_id} = $user_id;
             $env->{'psgix.session'}{remember} = 1 if $params->get( 'remember' );
-            my $redir_to = delete $env->{'psgix.session'}{redir_to};
-            $redir_to = '/' if 
-                URI->new( $redir_to )->path eq $env->{PATH_INFO};
+            my $tmp_redir = delete $env->{'psgix.session'}{redir_to};
+            if( !defined($redir_to) ){
+                $redir_to = $tmp_redir;
+                $redir_to = '/' if 
+                    URI->new( $redir_to )->path eq $env->{PATH_INFO};
+            }
             return [ 
                 302, 
                 [ Location => $redir_to ],

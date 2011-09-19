@@ -20,6 +20,12 @@ Revision history for Plack::Middleware::Auth::Form.
     Prefix for login form snippet is now 'Plack::Middleware::Auth::Form.LoginForm'
     HTTP headers are now array reference (tokuhirom)
 
-{{$NEXT}}
-    Experimental _wrap_body method
+0.010     2011-08-04
+    Experimental _wrap_body method (by chromatic)
     ssl_port parameter added
+
+{{$NEXT}}
+    session fixation attack protection (by hayajo)
+    session usage explanations (suggested by Kaare Rasmussen)
+    user dependent redirection paeg (suggested by Kaare Rasmussen)
+
