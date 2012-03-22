@@ -28,6 +28,11 @@ my $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { 1 } 
 my $res = $middleware->call( $get_req );
 like( join( '', @{ $res->[2] } ), qr/form id="login_form"/, '/login with login form' );
 is( $get_req->{'psgix.session'}{redir_to}, '/from_page' );
+{
+    local $get_req->{'psgix.session'}{user_id} = 1;
+    my $res = $middleware->call( $get_req );
+    like( join( '', @{ $res->[2] } ), qr/Already logged in/, 'no login form for logged in users' );
+}
 
 $res = $middleware->call( $post_req );
 is( $res->[1][0], 'Location', 'Redirection after login' ) or warn Dumper($res);

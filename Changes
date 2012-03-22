@@ -28,4 +28,5 @@ Revision history for Plack::Middleware::Auth::Form.
     session fixation attack protection (by hayajo)
     session usage explanations (suggested by Kaare Rasmussen)
     user dependent redirection page (suggested by Kaare Rasmussen)
+    fixing the 'logged user' check (using a patch from https://rt.cpan.org/Ticket/Display.html?id=75899)
 

@@ -56,10 +56,7 @@ sub _login {
         ];
     }
     my $params = Plack::Request->new( $env )->parameters;
-    if( defined $env->{user} ){
-        return 'Already logged in';
-    }
-    elsif( $env->{REQUEST_METHOD} eq 'POST' ){
+    if( $env->{REQUEST_METHOD} eq 'POST' ){
         my $user_id;
         my $auth_result = $self->authenticator->( $params->get( 'username' ), $params->get( 'password' ), $env );
         my $redir_to;
@@ -88,6 +85,13 @@ sub _login {
                 [ $self->_wrap_body( "<a href=\"$redir_to\">Back</a>" ) ]
             ];
         }
+    }
+    elsif( defined $env->{'psgix.session'}{user_id} ){
+        return [ 
+            200, 
+            [ 'Content-Type' => 'text/html', ],
+            [ $self->_wrap_body( 'Already logged in' ) ]
+        ];
     }
     $env->{'psgix.session'}{redir_to} ||= $env->{HTTP_REFERER} || '/';
     my $form = $self->_render_form( 
