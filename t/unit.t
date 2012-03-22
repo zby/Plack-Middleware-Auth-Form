@@ -56,6 +56,7 @@ is( $post_req->{'psgix.session'}{user_id}, '1', 'User id saved in the session' )
 $middleware = Plack::Middleware::Auth::Form->new( authenticator => sub { 0 } );
 $res = $middleware->call( $post_req );
 like( join( '', @{ $res->[2] } ), qr/error.*form id="login_form"/, 'login form for login error' );
+ok( !exists( $post_req->{'psgix.session'}{user_id} ), 'User logged out after failed login' );
 
 
 $post_req->{'psgix.session'}{user_id} = '1';

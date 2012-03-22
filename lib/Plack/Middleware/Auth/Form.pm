@@ -68,6 +68,7 @@ sub _login {
         else{
             $login_error = 'Wrong username or password' if !$auth_result;
             $user_id = $params->get( 'username' );
+            delete $env->{'psgix.session'}{user_id};
         }
         if( !$login_error ){
             $env->{'psgix.session.options'}->{change_id}++;
