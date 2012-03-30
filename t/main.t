@@ -39,11 +39,20 @@ $mech->submit_form_ok( {
         with_fields => {
             username => 'aaa',
             password => 'aaa',
+            remember => 1,
         }
     }
 );
 $mech->content_contains( 'Hi aaa', 'login passed, user_id filled in' );
 is( $mech->uri->path, '/some_page', 'Redirect after login' );
+my $expires;
+$mech->cookie_jar->scan( sub{ $expires = $_[8] } );
+ok( $expires > 1000, 'Expires set' );
+$mech->get( '/' );
+$mech->cookie_jar->scan( sub{ $expires = $_[8] } );
+ok( $expires > 1000, 'Expires set' );
+
+$mech->get( '/' );
 $mech->submit_form_ok( { form_name => 'logout_form' } );
 $mech->content_contains( '<a href="/login">login</a>', 'user logged out' );
 
