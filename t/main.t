@@ -49,8 +49,9 @@ my $expires;
 $mech->cookie_jar->scan( sub{ $expires = $_[8] } );
 ok( $expires > 1000, 'Expires set' );
 $mech->get( '/' );
-$mech->cookie_jar->scan( sub{ $expires = $_[8] } );
-ok( $expires > 1000, 'Expires stays' );
+$mech->cookie_jar->clear_temporary_cookies;
+$mech->get( '/' );
+$mech->content_contains( 'Hi aaa', 'Session stays logged in after clearing temporary cookies' );
 
 $mech->get( '/' );
 $mech->submit_form_ok( { form_name => 'logout_form' } );
