@@ -50,7 +50,7 @@ $mech->cookie_jar->scan( sub{ $expires = $_[8] } );
 ok( $expires > 1000, 'Expires set' );
 $mech->get( '/' );
 $mech->cookie_jar->scan( sub{ $expires = $_[8] } );
-ok( $expires > 1000, 'Expires set' );
+ok( $expires > 1000, 'Expires stays' );
 
 $mech->get( '/' );
 $mech->submit_form_ok( { form_name => 'logout_form' } );

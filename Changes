@@ -30,4 +30,6 @@ Revision history for Plack::Middleware::Auth::Form.
     user dependent redirection page (suggested by Kaare Rasmussen)
     fixing the 'logged user' check (suggested in https://rt.cpan.org/Ticket/Display.html?id=75899)
     logging out after a failed login (suggested in https://rt.cpan.org/Ticket/Display.html?id=75899)
+    keeping the 'Expires' on the cookie (https://rt.cpan.org/Public/Bug/Display.html?id=75896)
+
 

@@ -48,7 +48,7 @@ is( $res->[1][0], 'Location', 'Redirection after login' ) or warn Dumper($res);
 is( $res->[1][1], '/landing_page', 'Redirection after login' ) or warn Dumper($res);
 is( $post_req->{'psgix.session'}{user_id}, 'joe', 'Username saved in the session' );
 is( $post_req->{'psgix.session'}{redir_to}, undef, 'redir_to removed after usage' );
-ok( !exists $post_req->{'psgix.session'}{remember} );
+ok( !$post_req->{'psgix.session'}{remember}, 'remember not set' );
 
 
 $middleware = $class->new( authenticator => sub { 0 } );

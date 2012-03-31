@@ -23,12 +23,11 @@ sub prepare_app {
 sub call {
     my($self, $env) = @_;
     my $path = $env->{PATH_INFO};
-
+    
     if( $env->{'psgix.session'}{remember} ){
         if( $path ne '/logout' ){
             $env->{'psgix.session.options'}{expires} = time + 60 * 60 * 24 * 30;
         }
-        delete $env->{'psgix.session'}{remember};
     }
 
     if( $path eq '/login' ){
@@ -69,11 +68,12 @@ sub _login {
             $login_error = 'Wrong username or password' if !$auth_result;
             $user_id = $params->get( 'username' );
             delete $env->{'psgix.session'}{user_id};
+            delete $env->{'psgix.session'}{remember};
         }
         if( !$login_error ){
             $env->{'psgix.session.options'}->{change_id}++;
             $env->{'psgix.session'}{user_id} = $user_id;
-            $env->{'psgix.session'}{remember} = 1 if $params->get( 'remember' );
+            $env->{'psgix.session'}{remember} = ($params->get( 'remember' ) ? 1 : 0);
             my $tmp_redir = delete $env->{'psgix.session'}{redir_to};
             if( !defined($redir_to) ){
                 $redir_to = $tmp_redir;
@@ -138,6 +138,7 @@ sub _logout {
     my($self, $env) = @_;
     if( $env->{REQUEST_METHOD} eq 'POST' ){
         delete $env->{'psgix.session'}{user_id};
+        delete $env->{'psgix.session'}{remember};
     }
     return [ 
         303, 
