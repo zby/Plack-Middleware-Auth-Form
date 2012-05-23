@@ -261,5 +261,6 @@ chromatic
 hayajo
 Kaare Rasmussen
 Oliver Paukstadt
+G. Paul Ziemba
 
 =cut

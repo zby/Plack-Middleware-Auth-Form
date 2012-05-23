@@ -24,7 +24,7 @@ Revision history for Plack::Middleware::Auth::Form.
     Experimental _wrap_body method (by chromatic)
     ssl_port parameter added
 
-{{$NEXT}}
+0.011     2012-04-06
     session fixation attack protection (by hayajo)
     session usage explanations (suggested by Kaare Rasmussen)
     user dependent redirection page (suggested by Kaare Rasmussen)
@@ -32,4 +32,5 @@ Revision history for Plack::Middleware::Auth::Form.
     logging out after a failed login (suggested in https://rt.cpan.org/Ticket/Display.html?id=75899)
     keeping the 'Expires' on the cookie (https://rt.cpan.org/Public/Bug/Display.html?id=75896)
 
-
+{{$NEXT}}
+    _logout_hook (suggested by G. Paul Ziemba)
