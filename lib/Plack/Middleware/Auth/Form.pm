@@ -137,6 +137,7 @@ END
 sub _logout {
     my($self, $env) = @_;
     if( $env->{REQUEST_METHOD} eq 'POST' ){
+        $self->_logout_hook( $env->{'psgix.session'}{user_id}, $env );
         delete $env->{'psgix.session'}{user_id};
         delete $env->{'psgix.session'}{remember};
     }
@@ -147,7 +148,8 @@ sub _logout {
     ];
 }
 
-# this is experimental
+sub _logout_hook {}
+
 sub _wrap_body {
     my($self, $content) = @_;
 
