@@ -76,7 +76,7 @@ sub _login {
             $env->{'psgix.session'}{remember} = ($params->get( 'remember' ) ? 1 : 0);
             my $tmp_redir = delete $env->{'psgix.session'}{redir_to};
             if( !defined($redir_to) ){
-                $redir_to = $tmp_redir;
+                $redir_to = $tmp_redir || '/';
                 $redir_to = '/' if 
                     URI->new( $redir_to )->path eq $env->{PATH_INFO};
             }
