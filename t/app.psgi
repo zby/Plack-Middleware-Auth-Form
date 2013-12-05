@@ -21,7 +21,7 @@ END
         $page .= '<a href="/login">login</a>';
     }
     $page .= '</body></html>';
-    return [ 200, { 'Content-Type' => 'text/html', }, [ $page ] ];
+    return [ 200, [ 'Content-Type' => 'text/html', ], [ $page ] ];
 }
 
 builder {

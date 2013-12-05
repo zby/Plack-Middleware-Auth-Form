@@ -67,7 +67,7 @@ is( $res->[1][0], 'Location', 'Redirection after logout' );
 is( $res->[1][1], '/after_logout', 'Redirection after logout' );
 
 $middleware = $class->new(
-    app => sub { [ 200, {}, [ 'aaa' . $_[0]->{'Plack::Middleware::Auth::Form.LoginForm'} ] ] },
+    app => sub { [ 200, [], [ 'aaa' . $_[0]->{'Plack::Middleware::Auth::Form.LoginForm'} ] ] },
     no_login_page => 1,
 );
 $res = $middleware->call( $get_req );
