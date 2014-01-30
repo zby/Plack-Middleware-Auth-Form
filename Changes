@@ -34,4 +34,6 @@ Revision history for Plack::Middleware::Auth::Form.
 
 {{$NEXT}}
     _logout_hook (suggested by G. Paul Ziemba)
-    fix PSGI spec compliance in t/app.psgi
+    fix PSGI spec compliance in t/app.psgi (ilmari)
+    validate request/response with Plack::Middleware::Lint (Tokuhiro Matsuno <tokuhirom@gmail.com>)
+
